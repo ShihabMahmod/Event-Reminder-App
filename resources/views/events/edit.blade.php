@@ -1,24 +1,39 @@
-<h1>Create Event</h1>
-<form action="{{ route('event.update',$event->id) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <label>Title</label>
-    <input type="text" name="title" value="{{$event->title}}" required>
 
-    <label>Ticket Price</label>
-    <input type="number" name="ticket_price" value="{{$event->ticket_price}}" required>
 
-    <label>Description</label>
-    <textarea name="description">{{$event->description}}</textarea>
+@extends('layout')
+@section('content')
+    <div class="container mt-5">
+        <h1 class="mb-5">Edit Event</h1>
+        <form action="{{ route('event.update',$event->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" id="exampleFormControlInput1" value="{{$event->title}}">
+            </div>
 
-    <label>Start Time</label>
-    <input type="datetime-local" value="{{$event->start_time}}" name="start_time" required>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="description">{{$event->description}}</textarea>
+            </div>
+           
 
-    <label>End Time</label>
-    <input type="datetime-local" value="{{$event->end_time}}" name="end_time" required>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Start Time</label>
+                <input type="datetime-local" class="form-control" name="start_time" id="exampleFormControlInput1" value="{{$event->start_time}}">
+            </div>
 
-    <label>Reminder Time</label>
-    <input type="datetime-local" value="{{$event->reminder_time}}" name="reminder_time" required>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">End Time</label>
+                <input type="datetime-local" class="form-control" name="end_time" id="exampleFormControlInput1" value="{{$event->end_time}}">
+            </div>
 
-    <button type="submit">Update</button>
-</form>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Reminder Time</label>
+                <input type="datetime-local" class="form-control" name="reminder_time" id="exampleFormControlInput1" value="{{$event->reminder_time}}">
+            </div>
+            
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+    </div>
+@endsection

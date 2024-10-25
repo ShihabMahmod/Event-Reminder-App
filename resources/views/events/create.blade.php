@@ -1,37 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Create Event</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-</head>
-<body>
-    <h1>Create Event</h1>
-    <form id="event-form" onsubmit="return handleSubmit(event)">
-        @csrf
-        <label>Title</label>
-        <input type="text" name="title" required>
+@extends('layout')
+@section('content')
+    
+    <div class="container mt-5">
+        <h1 class="mb-5">Create Event</h1>
+        <form id="event-form"  onsubmit="return handleSubmit(event)">
+            @csrf
 
-        <label>Ticket Price</label>
-        <input type="number" name="ticket_price" required>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" id="exampleFormControlInput1" placeholder="Title">
+            </div>
 
-        <label>Description</label>
-        <textarea name="description"></textarea>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="description"></textarea>
+            </div>
+           
 
-        <label>Start Time</label>
-        <input type="datetime-local" name="start_time" required>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Start Time</label>
+                <input type="datetime-local" class="form-control" name="start_time" id="exampleFormControlInput1" placeholder="e.g-shihab">
+            </div>
 
-        <label>End Time</label>
-        <input type="datetime-local" name="end_time" required>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">End Time</label>
+                <input type="datetime-local" class="form-control" name="end_time" id="exampleFormControlInput1" placeholder="e.g-shihab">
+            </div>
 
-        <label>Reminder Time</label>
-        <input type="datetime-local" name="reminder_time" required>
-        
-        <button type="submit">Save</button>
-    </form>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Reminder Time</label>
+                <input type="datetime-local" class="form-control" name="reminder_time" id="exampleFormControlInput1" placeholder="e.g-shihab">
+            </div>
+            
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+    </div>
 
     <script>
     async function handleSubmit(event) {
@@ -163,5 +166,5 @@
         };
     }
 </script>
-</body>
-</html>
+@endsection
+

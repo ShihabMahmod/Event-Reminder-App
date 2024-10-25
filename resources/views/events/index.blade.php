@@ -1,47 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="theme-color" content="#6777ef"/>
-    <link rel="apple-touch-icon" href="{{ asset('techzu.png') }}">
-    <link rel="manifest" href="{{ asset('/manifest.json') }}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Upcoming Events</h1>
-    <ul>
-        @foreach($upcomingEvents as $event)
-            <li>{{ $event->title }} ({{ $event->start_time }}) - 
-                <a href="{{ route('event.edit', $event->id) }}">Edit</a>
-                <form action="{{ route('event.destroy', $event->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
-
-    <h1>Completed Events</h1>
-    <ul>
-        @foreach($completedEvents as $event)
-            <li>{{ $event->title }} ({{ $event->start_time }})</li>
-        @endforeach
-    </ul>
-
-    <a href="{{ route('event.create') }}">Create New Event</a>
-    <a href="{{ route('event.import.index') }}">Import Event</a>
 
 
 
-    <script src="{{ asset('/sw.js') }}"></script>
-    <script>
-    if (!navigator.serviceWorker.controller) {
-        navigator.serviceWorker.register("/sw.js").then(function (reg) {
-            console.log("Service worker has been registered for scope: " + reg.scope);
-        });
-    }
-    </script>
-</body>
-</html>
+@extends('layout')
+@section('content')
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mt-5">Upcoming Events</h1>
+            </div>
+            <div class="">
+                <a href="{{ route('event.create') }}" class="btn btn-outline-success">Add New</a>
+                <a href="{{ route('event.import.index') }}" class="btn btn-outline-info">Import</a>
+            </div>
+        </div>
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                <th scope="col">S.N</th>
+                <th scope="col">Title</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Reminder Time</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach($upcomingEvents as $index => $event)
+                <tr>
+                    <th scope="row">{{$index + 1}}</th>
+                    <td>{{ $event->title }}</td>
+                    <td>{{ $event->start_time }}</td>
+                    <td>{{ $event->end_time }}</td>
+                    <td>{{ $event->reminder_time }}</td>
+                    <td class="d-flex gap-2">
+                        <a class="btn btn-info" href="{{ route('event.edit', $event->id) }}">Edit</a>
+                        <form action="{{ route('event.destroy', $event->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+
+        
+        
+
+        <h1 class="mt-5">Completed Events</h1>
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                <th scope="col">S.N</th>
+                <th scope="col">Title</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">End Time</th>
+                <th scope="col">Reminder Time</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach($completedEvents as $index => $event)
+                <tr>
+                    <th scope="row">{{$index + 1}}</th>
+                    <td>{{ $event->title }}</td>
+                    <td>{{ $event->start_time }}</td>
+                    <td>{{ $event->end_time }}</td>
+                    <td>{{ $event->reminder_time }}</td>
+                    <td class="d-flex gap-2">
+                        <a class="btn btn-info" href="{{ route('event.edit', $event->id) }}">Edit</a>
+                        <form action="{{ route('event.destroy', $event->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+@endsection

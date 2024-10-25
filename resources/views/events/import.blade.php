@@ -10,13 +10,30 @@
 </head>
 <body>
     
-    <h1>Import Event</h1>
-    <form id="importForm" onsubmit="handleImport(event)" enctype="multipart/form-data">
-        @csrf
-        <label for="file">Choose CSV File:</label>
-        <input type="file" name="file" id="file" accept=".csv" required>
-        <button type="submit">Import</button>
-    </form>
+    
+
+   
+</body>
+</html>
+
+
+
+
+@extends('layout')
+@section('content')
+    <div class="container mt-5">
+        <h1 class="mb-5">Import Reminder Event</h1>
+        <form id="importForm" onsubmit="handleImport(event)" enctype="multipart/form-data">
+            @csrf
+
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Choose CSV File:</label>
+                <input class="form-control" type="file" name="file" id="file" accept=".csv" required>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Import</button>
+        </form>
+    </div>
 
     <script>
     async function handleImport(event) {
@@ -71,7 +88,7 @@
 
     async function storeEventOnServer(eventData) {
         try {
-            const response = await fetch('{{ route('event.import.store') }}', {
+            const response = await fetch('{{ route('event.store') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -155,5 +172,5 @@
         };
     }
     </script>
-</body>
-</html>
+
+@endsection

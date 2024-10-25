@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    protected $fillable = ['title', 'ticket_price', 'description', 'start_time', 'end_time', 'reminder_time', 'status'];
+    protected $fillable = ['title', 'description', 'start_time', 'end_time', 'reminder_time', 'status'];
 
     protected static function boot()
     {

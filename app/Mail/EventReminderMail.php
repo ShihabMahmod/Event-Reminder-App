@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class EventReminderMail extends Mailable
 {
@@ -30,6 +31,7 @@ class EventReminderMail extends Mailable
 
     public function content(): Content
     {
+        Log::info("From email"); 
         return new Content(
             view: 'emails.reminder', 
             with: [
@@ -40,6 +42,6 @@ class EventReminderMail extends Mailable
 
     public function attachments(): array
     {
-        return []; // You can add attachments here if needed
+        return []; 
     }
 }
