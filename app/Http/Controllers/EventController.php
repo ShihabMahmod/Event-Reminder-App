@@ -20,6 +20,8 @@ class EventController extends Controller
     }
     public function store(Request $request)
     {
+
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'ticket_price' => 'required|numeric|min:0',
@@ -62,4 +64,5 @@ class EventController extends Controller
         $event->delete();
         return redirect()->route('events.index')->with('success', 'Event deleted successfully.');
     }
+    
 }

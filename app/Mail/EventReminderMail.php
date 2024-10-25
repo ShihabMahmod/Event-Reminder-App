@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Event; // Ensure to import the Event model
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,41 +14,32 @@ class EventReminderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
+    public Event $event; 
+
+    public function __construct(Event $event)
     {
-        //
+        $this->event = $event; 
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Event Reminder Mail',
+            subject: 'Event Reminder: ' . $this->event->title, 
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.reminder', 
+            with: [
+                'event' => $this->event, 
+            ],
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
-        return [];
+        return []; // You can add attachments here if needed
     }
 }
