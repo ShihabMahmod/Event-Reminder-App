@@ -1,66 +1,141 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Event Reminder App
+A Progressive Web Application (PWA) for managing events and reminders with CRUD functionality, offline support, scheduled email reminders via cron jobs, and CSV import. This app is designed to handle event scheduling, notifications, and reminders, even when offline, and syncs data once an internet connection is re-established.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Table of Contents
+Features
+Technologies Used
+Installation
+Usage
+Offline Mode and Syncing
+Event Reminder ID Generation
+Email Reminders with Cron Job
+Importing Data from CSV
+Folder Structure
+License
+Features
+CRUD Operations: Full Create, Read, Update, Delete functionality for event reminders.
+Upcoming and Completed Events: Automatically tracks and displays upcoming and completed events.
+Offline Capability: Uses Progressive Web App (PWA) standards to store data offline and sync when back online.
+Customizable Event Reminder ID: Event reminders have unique, predefined prefix-based IDs.
+Email Notifications via Cron Job: Sends event reminder emails to external users at specified times using a cron job.
+CSV Import: Import event data from CSV files for quick setup and data migration.
+Technologies Used
+Frontend: HTML, CSS, JavaScript, Vue.js (or React if used)
+Backend: Laravel
+Database: MySQL (with offline storage using IndexedDB or similar)
+PWA: Service Workers, Cache API, IndexedDB
+Email: Laravel Notifications, Mail, Cron Job
+CSV Handling: Laravel Excel package
+Installation
+Prerequisites
+PHP 8.1 or above
+Composer
+Node.js and npm (for frontend assets and PWA setup)
+MySQL
+Steps
+Clone the repository:
 
-## About Laravel
+bash
+Copy code
+git clone https://github.com/yourusername/event-reminder-app.git
+cd event-reminder-app
+Install Backend Dependencies:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+bash
+Copy code
+composer install
+Install Frontend Dependencies:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+bash
+Copy code
+npm install && npm run dev
+Configure Environment Variables:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Copy .env.example to .env and update the necessary fields (database credentials, mail configuration, etc.):
 
-## Learning Laravel
+bash
+Copy code
+cp .env.example .env
+php artisan key:generate
+Run Migrations and Seeders:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+bash
+Copy code
+php artisan migrate --seed
+Serve the Application:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+bash
+Copy code
+php artisan serve
+Set up PWA:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Register the Service Worker and ensure manifest.json is configured correctly to provide PWA capabilities.
 
-## Laravel Sponsors
+Set Up Queue (for Email Notifications):
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Make sure the queue is running for email notifications:
 
-### Premium Partners
+bash
+Copy code
+php artisan queue:work
+Set Up the Cron Job for Email Reminders:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+To automate email reminders, set up a cron job to run Laravel's schedule:run command every minute.
 
-## Contributing
+Example (Linux/MacOS):
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Open the crontab editor:
 
-## Code of Conduct
+bash
+Copy code
+crontab -e
+Add the following line to the crontab to schedule it every minute:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+bash
+Copy code
+* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+Replace /path-to-your-project/ with the absolute path to your Laravel project directory.
 
-## Security Vulnerabilities
+Usage
+Create Event Reminder
+Navigate to the Create Event section.
+Fill out event details, including title, description, reminder time, start and end time.
+Submit to save and automatically generate a unique ID with a predefined prefix.
+View Upcoming and Completed Events
+The app separates Upcoming and Completed events automatically based on the current date and time.
+Use the filter options on the event list to view upcoming or completed events.
+Manage Offline Data
+The app allows you to add, edit, and delete events while offline.
+Once online, the app will automatically sync offline data to the server.
+Offline Mode and Syncing
+This application is built as a Progressive Web App (PWA) and uses the following technologies for offline functionality:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Service Worker: Caches static assets and pages for offline access.
+IndexedDB: Stores event data locally when offline.
+Sync Logic: Once the device is back online, offline events are synced with the server.
+Event Reminder ID Generation
+Each event is assigned a unique ID with a specific prefix format. This format is configured in the backend and automatically applied upon event creation.
 
-## License
+Email Reminders with Cron Job
+Automated Reminders: Email reminders are scheduled based on the event’s specified reminder_time field.
+Cron Job: The cron job runs every minute and triggers Laravel’s schedule:run command to check for and send reminder emails.
+Configuration: Ensure the mail settings in .env are correct to enable email notifications.
+Setting Up the Scheduler in Laravel
+In App\Console\Kernel.php, schedule the email reminder job:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+php
+Copy code
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('reminders:send')->everyMinute();
+}
+This will send reminder emails to users outside of the system at the specified reminder_time.
+
+Importing Data from CSV
+To import data:
+
+Go to the Import CSV section.
+Upload a CSV file containing event data.
+Ensure the CSV follows the required format:
+title, description, reminder_time, start_time, end_time, recipients
+The app will validate and import events, creating or updating existing entries as needed.
