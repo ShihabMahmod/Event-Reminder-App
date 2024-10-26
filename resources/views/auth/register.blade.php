@@ -1,6 +1,7 @@
 @extends('layout')
 @section('content')
     <div class="container mt-5">
+        <h1 class="mt-5 mb-5">Register</h1>
         <form action="{{route('store.register')}}" method="POST">
             @csrf
         <div class="mb-3">

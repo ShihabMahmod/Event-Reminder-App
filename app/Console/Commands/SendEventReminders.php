@@ -21,16 +21,18 @@ class SendEventReminders extends Command
 
     public function handle()
     {
-        
-        $upcomingEvents = Event::
-                            where('reminder_time', '<=', now()->addHour())
-                            ->get();
+        $now = Carbon::now(); 
+        $currentTime = $now->format('h:i:s A');
+        $oneHourLater = $now->copy()->addHour()->format('h:i:s A');
 
-        Log::info($upcomingEvents);                        
-
-        foreach ($upcomingEvents as $event) {
-                Mail::to('shihabmahmod58@gmail.com')
-                    ->send(new EventReminderMail($event));
+   
+        $upcomingEvents = Event::whereTime('reminder_time', '>', $currentTime)
+                        ->whereTime('reminder_time', '<=', $oneHourLater)
+                        ->get();
+       Log::info($upcomingEvents); 
+       foreach ($upcomingEvents as $event) {
+        Mail::to($event->user->email)
+            ->send(new EventReminderMail($event));
         }
         $this->info('Event reminders have been sent.');
     }

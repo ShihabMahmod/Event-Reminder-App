@@ -7,7 +7,7 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {

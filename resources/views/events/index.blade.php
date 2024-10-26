@@ -13,6 +13,11 @@
                 <a href="{{ route('event.import.index') }}" class="btn btn-outline-info">Import</a>
             </div>
         </div>
+
+        <?php
+            use Carbon\Carbon;
+        ?>
+
         <table class="table mt-5">
             <thead>
                 <tr>
@@ -29,9 +34,9 @@
                 <tr>
                     <th scope="row">{{$index + 1}}</th>
                     <td>{{ $event->title }}</td>
-                    <td>{{ $event->start_time }}</td>
-                    <td>{{ $event->end_time }}</td>
-                    <td>{{ $event->reminder_time }}</td>
+                    <td>{{ Carbon::parse($event->start_time)->format('F j, Y g:i A') }}</td>
+                    <td>{{ Carbon::parse($event->end_time)->format('F j, Y g:i A') }}</td>
+                    <td>{{ Carbon::parse($event->reminder_time)->format('F j, Y g:i A') }}</td>
                     <td class="d-flex gap-2">
                         <a class="btn btn-info" href="{{ route('event.edit', $event->id) }}">Edit</a>
                         <form action="{{ route('event.destroy', $event->id) }}" method="POST">
@@ -44,9 +49,6 @@
             @endforeach
             </tbody>
         </table>
-
-        
-        
 
         <h1 class="mt-5">Completed Events</h1>
         <table class="table mt-5">
@@ -61,13 +63,14 @@
                 </tr>
             </thead>
             <tbody>
+                
             @foreach($completedEvents as $index => $event)
                 <tr>
                     <th scope="row">{{$index + 1}}</th>
                     <td>{{ $event->title }}</td>
-                    <td>{{ $event->start_time }}</td>
-                    <td>{{ $event->end_time }}</td>
-                    <td>{{ $event->reminder_time }}</td>
+                    <td>{{ Carbon::parse($event->start_time)->format('F j, Y g:i A') }}</td>
+                    <td>{{ Carbon::parse($event->end_time)->format('F j, Y g:i A') }}</td>
+                    <td>{{ Carbon::parse($event->reminder_time)->format('F j, Y g:i A') }}</td>
                     <td class="d-flex gap-2">
                         <a class="btn btn-info" href="{{ route('event.edit', $event->id) }}">Edit</a>
                         <form action="{{ route('event.destroy', $event->id) }}" method="POST">
