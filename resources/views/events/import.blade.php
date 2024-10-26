@@ -1,23 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Event Management</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-</head>
-<body>
-    
-    
-
-   
-</body>
-</html>
-
-
-
 
 @extends('layout')
 @section('content')
@@ -38,9 +18,9 @@
     <script>
     async function handleImport(event) {
         event.preventDefault();
+        
         const fileInput = document.getElementById('file');
         const file = fileInput.files[0];
-
         if (!file) {
             alert('Please select a CSV file.');
             return;
@@ -55,6 +35,7 @@
                 for (const eventData of parsedData) {
                     await storeEventOnServer(eventData);
                 }
+                alert('Event imported successfully.');
             } else {
                 storeEventsLocally(parsedData);
             }
@@ -67,23 +48,23 @@
         const rows = data.split('\n');
         const result = [];
 
-        console.log(rows.length);
-
         for (let i = 1; i < rows.length; i++) { 
+           
             const cols = rows[i].split(',');
-            if (cols.length === 6) { 
+            console.log(cols);
+            if (cols.length === 5) { 
                 const eventData = {
                     title: cols[0].trim(),
-                    ticket_price: parseFloat(cols[1].trim()),
-                    description: cols[2].trim(),
-                    start_time: new Date(cols[3].trim()).toISOString(),
-                    end_time: new Date(cols[4].trim()).toISOString(),
-                    reminder_time: new Date(cols[5].trim()).toISOString(),
+                    description: cols[1].trim(),
+                    start_time: new Date(cols[2].trim()).toISOString(),
+                    end_time: new Date(cols[3].trim()).toISOString(),
+                    reminder_time: new Date(cols[4].trim()).toISOString(),
                 };
                 result.push(eventData);
             }
         }
         return result;
+        console.log(eventData);
     }
 
     async function storeEventOnServer(eventData) {
@@ -96,11 +77,11 @@
                 },
                 body: JSON.stringify(eventData),
             });
-
+            
             if (!response.ok) {
                 throw new Error('Failed to store event on server');
             }
-            alert('Event imported successfully.');
+            
         } catch (error) {
             console.error('Error storing event on server:', error);
         }

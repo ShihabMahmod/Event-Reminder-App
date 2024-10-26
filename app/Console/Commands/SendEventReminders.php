@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Mail\EventReminderMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\SendEventReminderEmail;
 use Carbon\Carbon;
 
 class SendEventReminders extends Command
@@ -29,10 +30,9 @@ class SendEventReminders extends Command
         $upcomingEvents = Event::whereTime('reminder_time', '>', $currentTime)
                         ->whereTime('reminder_time', '<=', $oneHourLater)
                         ->get();
-       Log::info($upcomingEvents); 
+      
        foreach ($upcomingEvents as $event) {
-        Mail::to($event->user->email)
-            ->send(new EventReminderMail($event));
+            SendEventReminderEmail::dispatch($event);
         }
         $this->info('Event reminders have been sent.');
     }

@@ -2,6 +2,15 @@
 @section('content')
     
     <div class="container mt-5">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <h1 class="mb-5">Create Event</h1>
         <form id="event-form"  onsubmit="return handleSubmit(event)">
             @csrf
@@ -19,17 +28,17 @@
 
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Start Time</label>
-                <input type="datetime-local" class="form-control" name="start_time" id="exampleFormControlInput1" placeholder="e.g-shihab">
+                <input type="datetime-local" class="form-control" name="start_time" id="exampleFormControlInput1">
             </div>
 
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">End Time</label>
-                <input type="datetime-local" class="form-control" name="end_time" id="exampleFormControlInput1" placeholder="e.g-shihab">
+                <input type="datetime-local" class="form-control" name="end_time" id="exampleFormControlInput1" >
             </div>
 
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Reminder Time</label>
-                <input type="datetime-local" class="form-control" name="reminder_time" id="exampleFormControlInput1" placeholder="e.g-shihab">
+                <input type="datetime-local" class="form-control" name="reminder_time" id="exampleFormControlInput1" >
             </div>
             
             <button class="btn btn-primary" type="submit">Save</button>
@@ -53,12 +62,16 @@
                     },
                     body: JSON.stringify(eventData),
                 });
-
+                console.log(response);
                 if (response.ok) {
-                    alert('Event created successfully.');
+                    const data = await response.json();
+                    alert(data.success);
                     form.reset();
                 } else {
-                    alert('Failed to create event on server.');
+                    const errorData = await response.json();
+                    displayValidationErrors(errorData.errors);
+                    console.log(data.errors.description);
+                    alert(data.errors);
                 }
             } catch (error) {
                 console.error('Error during online event submission:', error);
@@ -66,6 +79,24 @@
         } else {
             storeEventLocally(eventData);
         }
+    }
+
+    function displayValidationErrors(errors) {
+            
+            const errorContainer = document.createElement('div');
+            errorContainer.classList.add('alert', 'alert-danger'); 
+            errorContainer.innerHTML = '<strong>Please fix the following errors:</strong><ul>';
+
+            for (const [key, messages] of Object.entries(errors)) {
+                messages.forEach(message => {
+                    const li = document.createElement('li');
+                    li.textContent = message;
+                    errorContainer.querySelector('ul').appendChild(li);
+                });
+            }
+            errorContainer.innerHTML += '</ul>'; 
+            const formContainer = document.querySelector('.container'); 
+            formContainer.prepend(errorContainer);
     }
 
     function storeEventLocally(eventData) {
