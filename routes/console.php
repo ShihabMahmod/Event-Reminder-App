@@ -10,6 +10,6 @@ Artisan::command('inspire', function () {
 
 
   
-Schedule::command('send:event-reminders')->everyFiveMinutes();
+Schedule::command('send:event-reminders')->hourly();
 
 
