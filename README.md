@@ -123,7 +123,6 @@ Steps 4 : Queue Configuration
 
 - The app is a PWA that utilizes the following technologies for offline functionality:
 
-    - Service Worker: Caches static assets and pages for offline access.
     - IndexedDB: Stores event data locally for offline use.
     - Sync Logic: Automatically syncs offline data with the server when back online.
 
