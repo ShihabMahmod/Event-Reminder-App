@@ -1,7 +1,7 @@
 
 # Event Reminder App
 
-A Progressive Web Application (PWA) for managing event reminders with CRUD operations, offline functionality, scheduled email notifications via queues and cron jobs, and CSV import. This app allows users to schedule events, set reminders, and receive notifications automatically, even when offline.
+A Progressive Web Application (PWA) for managing event reminders with CRUD operations, offline functionality, scheduled email notifications via queues and cron jobs, and CSV import. This app allows users to schedule events, set reminders, and receive email notifications automatically, even when offline.
 
 
 
