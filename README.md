@@ -115,7 +115,7 @@ Steps 4 : Queue Configuration
 
 **Manage Offline Data**
 
-- The app supports offline usage, allowing you to add, edit, and delete events even    without an internet connection.
+- The app supports offline usage, allowing you to add and edit events even    without an internet connection.
 
 - Offline data will sync with the server once the device is back online.
 
